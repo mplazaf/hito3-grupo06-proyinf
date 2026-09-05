@@ -6,10 +6,10 @@ Repositorio correspondiente al proyecto de la asignatura INF236 - Análisis y Di
 
 - Sebastián Contreras - 202473041-K
 - Miguel Plaza - 202473058-4
-- Maria Jose Alvarez - 202473045-2
+- María José Alvarez - 202473045-2
 - Noelia Opazo - 202473069-K
 
-## Ayudante
+## Ayudante  - Tutor
 
 - Fernanda Araya
 
@@ -44,7 +44,7 @@ La documentación correspondiente al proyecto se encuentra disponible en la Wiki
 - morgan ^1.10.0
 - mysql2 ^3.0.0
 
-### Cómo levantar el proyecto
+### Indicaciones para levantar el proyecto
 
 Con Docker Desktop abierto, desde la carpeta principal del proyecto ejecutar:
 
