@@ -280,18 +280,3 @@ docker compose down
 ```
 
 en la carpeta correspondiente a cada servicio levantado.
-```
-
-Si anteriormente se detuvo una instancia local de MySQL, volver a iniciarla desde PowerShell como administrador:
-
-```powershell
-Start-Service MySQL80
-```
-docker compose up --build
-```
-
-Cuando la API esté funcionando aparecerá el mensaje:
-
-```text
-Server running!
-```
