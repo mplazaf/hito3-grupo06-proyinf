@@ -17,6 +17,7 @@ INSERT INTO propuesta_tt (nombre_tema) VALUES ("Propuesta de prueba");
 
 CREATE DATABASE IF NOT EXISTS BD06_VALIDACIONES;
 USE BD06_VALIDACIONES;
+
 CREATE TABLE IF NOT EXISTS trabajo_de_titulo (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100),
@@ -31,3 +32,14 @@ CREATE TABLE IF NOT EXISTS anotacion_tt (
     guia_id INT,
     fecha DATETIME
 );
+
+CREATE TABLE IF NOT EXISTS hito (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    fecha DATE,
+    estado VARCHAR(20) DEFAULT 'pendiente',
+    trabajo_de_titulo_id INT NOT NULL,
+    FOREIGN KEY (trabajo_de_titulo_id) REFERENCES trabajo_de_titulo(id)
+);
+
+
