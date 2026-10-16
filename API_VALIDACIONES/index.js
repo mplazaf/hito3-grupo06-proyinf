@@ -29,14 +29,19 @@ app.get("/api/trabajos/:id/estado", async (req, res) => {
 });
 
 // HU-02 CA2
+
 app.post("/api/versiones/:id/anotaciones", async (req, res) => {
   try {
     const { comentario, guia_id } = req.body;
-    await pool.query(
+    const [result] = await pool.query(
       "INSERT INTO anotacion_tt (comentario, version_id, guia_id, fecha) VALUES (?, ?, ?, NOW())",
       [comentario, req.params.id, guia_id]
     );
-    res.status(201).json({ mensaje: "Anotación registrada" });
+    const [rows] = await pool.query(
+      "SELECT * FROM anotacion_tt WHERE id = ?",
+      [result.insertId]
+    );
+    res.status(201).json(rows[0]);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
