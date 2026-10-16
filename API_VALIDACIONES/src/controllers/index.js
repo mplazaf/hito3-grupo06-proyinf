@@ -1,17 +1,36 @@
 const database = require('../db');
 
+// HU-01 CA1: consultar estado actual
+const getEstadoTrabajo = (req, res) => {
+  const trabajoId = req.params.id;
+  const query = 'SELECT id, nombre, estado FROM trabajo_de_titulo WHERE id = ?';
 
-//Esta tabla es solo un ejemplo para que puedan ver como se hacen querys a la bdd, después puede ser eliminada
-const createTable = (req, res) => {
-    const query =  'CREATE TABLE IF NOT EXISTS user(id int AUTO_INCREMENT, firstname VARCHAR(50), lastname VARCHAR(50), email VARCHAR(50), PRIMARY KEY(id))';
-
-    database.query(query, (err) => {
-        if (err) throw err;
-        res.send('Tabla creada')
-    });
+  database.query(query, [trabajoId], (err, result) => {
+    if (err) throw err;
+    if (!result[0]) {
+      res.status(404).send('Trabajo de Título no encontrado');
+      return;
+    }
+    res.status(200).json(result[0]);
+  });
 };
 
+// HU-02 CA2: registrar anotación sobre una versión
+const registrarAnotacion = (req, res) => {
+  const versionId = req.params.id;
+  const { comentario, guia_id } = req.body;
+  const query = "INSERT INTO anotacion_tt (comentario, version_id, guia_id, fecha) VALUES (?, ?, ?, NOW())";
+
+  database.query(query, [comentario, versionId, guia_id], (err, result) => {
+    if (err) throw err;
+    database.query("SELECT * FROM anotacion_tt WHERE id = ?", [result.insertId], (err2, rows) => {
+      if (err2) throw err2;
+      res.status(201).json(rows[0]);
+    });
+  });
+};
 
 module.exports = {
-    createTable
+  getEstadoTrabajo,
+  registrarAnotacion,
 };
