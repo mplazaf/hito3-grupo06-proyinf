@@ -1,41 +1,25 @@
-services:
-  api_ejemplo:
-    build: ./API_EJEMPLO
-    env_file: ./API_EJEMPLO/.env
-    ports:
-      - "8082:8082"
-    depends_on:
-      - mysql
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+version: "3.4"
 
+services:
   mysql:
     image: mysql
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    ports: 
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: BD_EJEMPLO
-    ports:
-      - "3306:3306"
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./API_EJEMPLO/init:/docker-entrypoint-initdb.d
 
-
-  api_tramitacion:
-    build: ./API_TRAMITACION
-    env_file: ./API_TRAMITACION/.env
+# Contenedor para la API de ejemplo
+  api_ejemplo:
+    build: ./API_EJEMPLO
+    image: api_ejemplo
+    volumes:
+      - ./API_EJEMPLO/:/usr/app
+      - /usr/app/node_modules
+    restart: on-failure
     ports:
-      - "8080:8080"
-    depends_on:
-      - mysql
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-
-  api_validaciones:
-    build: ./API_VALIDACIONES
-    env_file: ./API_VALIDACIONES/.env
-    ports:
-      - "8081:8081"
+      - "8082:8082"
     depends_on:
       - mysql
     extra_hosts:
