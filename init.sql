@@ -42,4 +42,9 @@ CREATE TABLE IF NOT EXISTS hito (
     FOREIGN KEY (trabajo_de_titulo_id) REFERENCES trabajo_de_titulo(id)
 );
 
+INSERT INTO hito (nombre, fecha, estado, trabajo_de_titulo_id) VALUES
+    ("TT1 - Propuesta de Trabajo de Título", "2026-05-10", "completado", 1),
+    ("TT2 - Desarrollo del Trabajo de Título", NULL, "en_revision", 1),
+    ("Examen de Título", NULL, "pendiente", 1);
+
 
