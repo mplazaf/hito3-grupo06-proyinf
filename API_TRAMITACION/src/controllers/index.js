@@ -1,17 +1,23 @@
 const database = require('../db');
 
+// HU-04 CA2: aprobar una propuesta cambia su estado
+const aprobarPropuesta = (req, res) => {
+  const propuestaId = req.params.id;
+  const updateQuery = "UPDATE propuesta_tt SET estado_aprobacion = 'aprobada' WHERE id = ?";
 
-//Esta tabla es solo un ejemplo para que puedan ver como se hacen querys a la bdd, después puede ser eliminada
-const createTable = (req, res) => {
-    const query =  'CREATE TABLE IF NOT EXISTS user(id int AUTO_INCREMENT, firstname VARCHAR(50), lastname VARCHAR(50), email VARCHAR(50), PRIMARY KEY(id))';
-
-    database.query(query, (err) => {
-        if (err) throw err;
-        res.send('Tabla creada')
+  database.query(updateQuery, [propuestaId], (err) => {
+    if (err) throw err;
+    database.query("SELECT * FROM propuesta_tt WHERE id = ?", [propuestaId], (err2, rows) => {
+      if (err2) throw err2;
+      if (!rows[0]) {
+        res.status(404).send('Propuesta no encontrada');
+        return;
+      }
+      res.status(200).json(rows[0]);
     });
+  });
 };
-
 
 module.exports = {
-    createTable
-};
+  aprobarPropuesta,
+};;
